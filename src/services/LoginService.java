@@ -1,18 +1,25 @@
 package services;
 
-import dao.UserDAO;
+import beans.LoginUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dao.UserDAO
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/login")
+@Path("/users")
 public class LoginService
 {
-    @GET
+    @POST
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public String login(@QueryParam("username") String username,@QueryParam("password") String password){
+    public String login(String element)
+    {
+        Gson gson = new GsonBuilder().create();
+        LoginUser user = gson.fromJson(element, LoginUser.class);
         UserDAO dao = new UserDAO();
-        return dao.checkUserCredentials(username,password);
+        return dao.checkUserCredentials(user);
     }
 }

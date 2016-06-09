@@ -1,32 +1,56 @@
 package dao;
 
+import beans.LoginUser;
+import beans.RegisterUser;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserDAO
 {
-    public String checkUserCredentials(String username, String password)
+    public String checkUserCredentials(LoginUser user)
     {
         boolean hasUser = false;
         Statement statement = DatabaseConnector.getStatement();
         try
         {
-            ResultSet set = statement.executeQuery("SELECT * FROM STUDENT WHERE FN='" + username + "' AND PASSWORD='" + password + "'");
-            hasUser = set.getString("FN") != null && !set.getString("FN").equals("");
+            ResultSet set = statement.executeQuery(
+                    "SELECT * FROM STUDENT WHERE FN='" + user.getUsername() + "' AND PASSWORD='" + user.getUsername() + "'");
+            hasUser = set.getString("FN") != null && !set.getString("FN").equals("") && set.getString("FN")
+                    .equals(user.getUsername()) && set.getString("PASSWORD").equals(user.getPassword());
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
-        if(hasUser){
+        if (hasUser)
+        {
             return SessionProvider.nextSessionId();
         }
-        else return "Error";
+        else
+            return "Error";
     }
 
-    public void createUser(String fn, String password, String email)
+    public boolean createUser(RegisterUser user)
     {
-
+        Statement statement = DatabaseConnector.getStatement();
+        try
+        {
+            ResultSet set = statement.executeQuery("SELECT ID FROM STUDENT");
+            int i = 0;
+            while (set.next())
+            {
+                i = set.getInt("ID");
+            }
+            return statement.execute(
+                    "INSERT INTO STUDENT VALUE(" + (i + 1) + "," + user.getName() + "," + user.getUsername() + "," + user
+                            .getEmail() + "," + user.getPassword() + ")");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
