@@ -18,7 +18,7 @@ public class DatabaseConnector
         }
         System.out.println("Opened database successfully");
     }
-    public static synchronized Statement getStatement(){
+    static synchronized Statement getStatement(){
         try
         {
             return c.createStatement();

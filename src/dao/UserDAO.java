@@ -37,14 +37,9 @@ public class UserDAO
         Statement statement = DatabaseConnector.getStatement();
         try
         {
-            ResultSet set = statement.executeQuery("SELECT ID FROM STUDENT");
-            int i = 0;
-            while (set.next())
-            {
-                i = set.getInt("ID");
-            }
+
             return statement.execute(
-                    "INSERT INTO STUDENT VALUE(" + (i + 1) + "," + user.getName() + "," + user.getUsername() + "," + user
+                    "INSERT INTO STUDENT VALUE(" + user.getName() + "," + user.getUsername() + "," + user
                             .getEmail() + "," + user.getPassword() + ")");
         }
         catch (SQLException e)
