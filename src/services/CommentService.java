@@ -1,15 +1,17 @@
 package services;
 
+import beans.Comment;
 import beans.CreateComment;
 import beans.GetAllComments;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dao.CommentDAO;
 import dao.SessionProvider;
+import dao.CommentDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/comments")
 public class CommentService
@@ -41,7 +43,8 @@ public class CommentService
         GetAllComments request = gson.fromJson(json, GetAllComments.class);
         if(SessionProvider.checkSid(request.getSid())){
             CommentDAO dao = new CommentDAO();
-            dao.getAllComments(request);
+            List<Comment> comments = dao.getAllComments(request);
+            return Response.ok(gson.toJson(comments)).build();
         }else
         {
             return Response.serverError().build();
