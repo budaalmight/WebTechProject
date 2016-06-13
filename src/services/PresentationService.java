@@ -37,7 +37,6 @@ public class PresentationService
     @POST
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response create(String json)
     {
         Gson gson = new GsonBuilder().create();
