@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="controllers/jquery-3.0.0.min.js"></script>
+    <script src="controllers/login.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<div class="login-wrapper">
+    <form id="login-form">
+        <label for="login-fn">Username:</label><input type="text" id="login-fn">
+        <label for="login-password">Password:</label><input id="login-password" type="password">
+        <button id="login-button">Login</button>
+    </form>
+    <p id="wrong-login">Wrong Username(fn) of password.</p>
+</div>
 </body>
 </html>
