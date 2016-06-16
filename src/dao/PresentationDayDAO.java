@@ -7,43 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PresentationDayDAO
 {
     public List<PresentationDay> getAll()
     {
-        try
-        {
-            ResultSet resultSet = DatabaseConnector.getStatement().executeQuery("SELECT * FROM PRESENTATIONDAY");
-            List<PresentationDay> result = new ArrayList<>();
-            result.add(new PresentationDay(resultSet.getString("DATE"), resultSet.getString("DURATION"),
-                    resultSet.getString("STARTTIME"), resultSet.getString("ENDTIME")));
-            while (resultSet.next())
-            {
-                result.add(new PresentationDay(resultSet.getString("DATE"), resultSet.getString("DURATION"),
-                        resultSet.getString("STARTTIME"), resultSet.getString("ENDTIME")));
-            }
-            return result;
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
+        List<Map<String, String>> result = DatabaseConnector.execute("SELECT * FROM PRESENTATIONDAY");
+        return result.stream().map(line -> new PresentationDay(line.get("DATE"), line.get("DURATION"), line.get("STARTTIME"),
+                line.get("ENDTIME"))).collect(Collectors.toList());
     }
 
-    public boolean create(CreatePresentationDay request)
+    public void create(CreatePresentationDay request)
     {
-        try
-        {
-            return DatabaseConnector.getStatement().execute(
-                    "INSERT INTO PRESENTATIONDAY VALUES(" + request.getDate() + "," + request.getDuration() + "," + request
-                            .getStartTime() + "," + request.getEndTime() + ")");
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
+        DatabaseConnector.execute(
+                "INSERT INTO PRESENTATIONDAY (DATE,DURATION,STARTTIME,ENDTIME) VALUES('" + request.getDate() + "','" + request
+                        .getDuration() + "','" + request.getStartTime() + "','" + request.getEndTime() + "')");
     }
 }

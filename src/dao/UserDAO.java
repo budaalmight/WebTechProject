@@ -6,24 +6,18 @@ import beans.RegisterUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 public class UserDAO
 {
     public String checkUserCredentials(LoginUser user)
     {
-        boolean hasUser = false;
-        Statement statement = DatabaseConnector.getStatement();
-        try
-        {
-            ResultSet set = statement.executeQuery(
-                    "SELECT * FROM STUDENT WHERE FN='" + user.getUsername() + "' AND PASSWORD='" + user.getUsername() + "'");
-            hasUser = set.getString("FN") != null && !set.getString("FN").equals("") && set.getString("FN")
-                    .equals(user.getUsername()) && set.getString("PASSWORD").equals(user.getPassword());
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        boolean hasUser;
+        List<Map<String, String>> execute = DatabaseConnector
+                .execute("SELECT * FROM STUDENT WHERE FN='" + user.getUsername() + "' AND PASSWORD='" + user.getUsername() + "'");
+        hasUser = execute.get(0).get("FN") != null && !execute.get(0).get("FN").equals("") && execute.get(0).get("FN")
+                .equals(user.getUsername()) && execute.get(0).get("PASSWORD").equals(user.getPassword());
         if (hasUser)
         {
             return SessionProvider.nextSessionId();
@@ -32,20 +26,11 @@ public class UserDAO
             return "Error";
     }
 
-    public boolean createUser(RegisterUser user)
+    public void createUser(RegisterUser user)
     {
-        Statement statement = DatabaseConnector.getStatement();
-        try
-        {
 
-            return statement.execute(
-                    "INSERT INTO STUDENT VALUE(" + user.getName() + "," + user.getUsername() + "," + user
-                            .getEmail() + "," + user.getPassword() + ")");
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
+        DatabaseConnector.execute(
+                "INSERT INTO STUDENT (NAME, FN, EMAIL, PASSWORD) VALUES('" + user.getName() + "','" + user.getUsername() + "','"
+                        + user.getEmail() + "','" + user.getPassword() + "')");
     }
 }

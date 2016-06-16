@@ -24,14 +24,11 @@ public class PresentationDayService
         if (SessionProvider.checkSid(presentationDay.getSid()))
         {
             PresentationDayDAO dayDAO = new PresentationDayDAO();
-            if (dayDAO.create(presentationDay))
-                return Response.ok("done").build();
-            else
-                Response.serverError().build();
+            dayDAO.create(presentationDay);
+            return Response.ok("Done.").build();
         }
         else
             return Response.serverError().build();
-        return Response.serverError().build();
     }
 
     @GET

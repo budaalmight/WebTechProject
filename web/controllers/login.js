@@ -4,7 +4,9 @@
 $(document).ready(function () {
     $('#wrong-login').hide();
     $('#login-button').click(function () {
-        $.get("rest/users/login", function (data, status) {
+        var username = $('#login-fn').getText();
+        var password = $('#login-password').getText();
+        $.post("rest/users/login",{username: username, password: password} , function (data, status) {
             localStorage.setItem('sid',data);
             window.location.replace("index.html");
         })

@@ -26,7 +26,8 @@ public class CommentService
         CreateComment comment = gson.fromJson(json, CreateComment.class);
         if(SessionProvider.checkSid(comment.getSid())){
             CommentDAO dao = new CommentDAO();
-            return Response.ok(dao.createComment(comment)).build();
+            dao.createComment(comment);
+            return Response.ok("Ok").build();
         }
         else
         {

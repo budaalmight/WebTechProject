@@ -44,10 +44,8 @@ public class PresentationService
         if (SessionProvider.checkSid(presentation.getSid()))
         {
             PresentationDAO dao = new PresentationDAO();
-            if (dao.create(presentation))
-                return Response.ok("Done").build();
-            else
-                return Response.serverError().build();
+            dao.create(presentation);
+            return Response.ok("Done").build();
         }
         return Response.serverError().build();
     }

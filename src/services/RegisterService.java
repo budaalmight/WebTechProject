@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import dao.UserDAO;
 
 @Path("/users")
@@ -17,13 +18,14 @@ public class RegisterService
     @Path("/register")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response register(String json){
+    public Response register(String json)
+    {
         Gson gson = new GsonBuilder().create();
         RegisterUser user = gson.fromJson(json, RegisterUser.class);
         UserDAO userDAO = new UserDAO();
         Response response;
-        if(userDAO.createUser(user)) response = Response.ok("Done").build();
-        else response = Response.serverError().build();
+        userDAO.createUser(user);
+        response = Response.ok("Done").build();
         return response;
     }
 }
