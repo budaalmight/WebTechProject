@@ -1,28 +1,18 @@
 package beans;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class Presentation
 {
     private final String fn;
     private final String presentationDay;
-    private final String startTime;
-    private final List<String> commentsIds;
+    private final Date startTime;
 
-    public Presentation(String fn, String presentationDay, String startTime, String commentsIds)
+    public Presentation(String fn, String presentationDay, Date startTime)
     {
         this.fn = fn;
         this.presentationDay = presentationDay;
         this.startTime = startTime;
-        List<String> sep = new ArrayList<>();
-        commentsIds = commentsIds.replace("[","");
-        commentsIds = commentsIds.replace("]","");
-        String[] b = commentsIds.split(",");
-        for(String s : b){
-            sep.add(s.trim());
-        }
-        this.commentsIds = sep;
     }
 
     public String getFn()
@@ -35,13 +25,8 @@ public class Presentation
         return presentationDay;
     }
 
-    public String getStartTime()
+    public Date getStartTime()
     {
         return startTime;
-    }
-
-    public List<String> getCommentsIds()
-    {
-        return commentsIds;
     }
 }

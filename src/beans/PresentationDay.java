@@ -1,36 +1,31 @@
 package beans;
 
+import java.util.Date;
+
 public class PresentationDay
 {
-    private final String date;
-    private final String duration;
-    private final String startTime;
-    private final String endTime;
+    private final Integer duration;
+    private final Date startTime;
+    private final Date endTime;
 
-    public PresentationDay(String date, String duration, String startTime, String endTime)
+    public PresentationDay(Integer duration, Date startTime, Date endTime)
     {
-        this.date = date;
         this.duration = duration;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public String getDate()
-    {
-        return date;
-    }
-
-    public String getDuration()
+    public Integer getDuration()
     {
         return duration;
     }
 
-    public String getStartTime()
+    public Date getStartTime()
     {
         return startTime;
     }
 
-    public String getEndTime()
+    public Date getEndTime()
     {
         return endTime;
     }

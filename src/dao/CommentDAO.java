@@ -4,29 +4,67 @@ import beans.Comment;
 import beans.CreateComment;
 import beans.GetAllComments;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CommentDAO
 {
     public String createComment(CreateComment comment)
     {
-        DatabaseConnector.execute(
-                "INSERT INTO COMMENT (PRESENTATION,FN,COMMENT) VALUES ('" + comment.getPresentation() + "','" + comment.getFn()
-                        + "','" + comment.getComment() + "')");
-        return "Done";
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+                Statement statement = connection.createStatement())
+        {
+            statement.executeUpdate(
+                    "INSERT INTO webtechdb.comment (Presentation,Student,Comment) VALUES (" + comment.getPresentation() + ","
+                            + comment.getFn() + ",'" + comment.getComment() + "')");
+            return "Done";
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return "Error";
     }
 
     public List<Comment> getAllComments(GetAllComments request)
     {
-        List<Map<String, String>> result = DatabaseConnector
-                .execute("SELECT * FROM COMMENT WHERE PRESENTATION='" + request.getPresentation() + "'");
-        return result.stream().map(line -> new Comment(line.get("PRESENTATION"), line.get("STUDENT"), line.get("COMMENT")))
-                .collect(Collectors.toList());
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+                Statement statement = connection.createStatement())
+        {
+            List<Comment> comments = new ArrayList<>();
+            ResultSet resultSet = statement
+                    .executeQuery("SELECT * FROM webtechdb.comment WHERE Presentation=" + request.getPresentation() + "");
+            while (resultSet.next())
+            {
+                comments.add(new Comment(resultSet.getString("Presentation"), resultSet.getString("Student"),
+                        resultSet.getString("Comment")));
+            }
+            resultSet.close();
+            return comments;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

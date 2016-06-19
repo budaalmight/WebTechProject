@@ -14,12 +14,12 @@ public class LoginService
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String login(String element)
     {
         Gson gson = new GsonBuilder().create();
         LoginUser user = gson.fromJson(element, LoginUser.class);
         UserDAO dao = new UserDAO();
-        return dao.checkUserCredentials(user);
+        return "{ \"sid\" : \"" + dao.checkUserCredentials(user) + "\"}";
     }
 }

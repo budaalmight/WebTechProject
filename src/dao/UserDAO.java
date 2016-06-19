@@ -3,9 +3,7 @@ package dao;
 import beans.LoginUser;
 import beans.RegisterUser;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
@@ -13,24 +11,57 @@ public class UserDAO
 {
     public String checkUserCredentials(LoginUser user)
     {
-        boolean hasUser;
-        List<Map<String, String>> execute = DatabaseConnector
-                .execute("SELECT * FROM STUDENT WHERE FN='" + user.getUsername() + "' AND PASSWORD='" + user.getUsername() + "'");
-        hasUser = execute.get(0).get("FN") != null && !execute.get(0).get("FN").equals("") && execute.get(0).get("FN")
-                .equals(user.getUsername()) && execute.get(0).get("PASSWORD").equals(user.getPassword());
-        if (hasUser)
+        try
         {
-            return SessionProvider.nextSessionId();
+            Class.forName("com.mysql.jdbc.Driver");
         }
-        else
-            return "Error";
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+                Statement statement = connection.createStatement())
+        {
+
+            ResultSet result = statement.executeQuery(
+                    "SELECT * FROM webtechdb.student WHERE FN=" + user.getUsername() + " AND Password='" + user.getPassword()
+                            + "'");
+            if( result.next() && result.getString("Fn").equals(user.getUsername()) && result.getString("Password").equals(user.getPassword()))
+            {
+                return SessionProvider.nextSessionId();
+            }
+            else
+                return "Error";
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return "Error";
     }
 
     public void createUser(RegisterUser user)
     {
-
-        DatabaseConnector.execute(
-                "INSERT INTO STUDENT (NAME, FN, EMAIL, PASSWORD) VALUES('" + user.getName() + "','" + user.getUsername() + "','"
-                        + user.getEmail() + "','" + user.getPassword() + "')");
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try(Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+        Statement statement = connection.createStatement())
+        {
+            statement.execute(
+                    "INSERT INTO webtechdb.student (Name, FN, Email, Password) VALUE('" + user.getName() + "'," + user.getUsername() + ",'"
+                            + user.getEmail() + "','" + user.getPassword() + "')");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

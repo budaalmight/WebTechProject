@@ -3,26 +3,66 @@ package dao;
 import beans.CreatePresentationDay;
 import beans.PresentationDay;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class PresentationDayDAO
 {
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm");
     public List<PresentationDay> getAll()
     {
-        List<Map<String, String>> result = DatabaseConnector.execute("SELECT * FROM PRESENTATIONDAY");
-        return result.stream().map(line -> new PresentationDay(line.get("DATE"), line.get("DURATION"), line.get("STARTTIME"),
-                line.get("ENDTIME"))).collect(Collectors.toList());
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+                Statement statement = connection.createStatement())
+        {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM webtechdb.presentationday");
+            List<PresentationDay> presentationDays = new ArrayList<>();
+            while (resultSet.next())
+            {
+                presentationDays.add(new PresentationDay(resultSet.getInt("Duration"), resultSet.getDate("StartTime"),
+                        resultSet.getDate("EndTime")));
+            }
+            resultSet.close();
+            return presentationDays;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void create(CreatePresentationDay request)
     {
-        DatabaseConnector.execute(
-                "INSERT INTO PRESENTATIONDAY (DATE,DURATION,STARTTIME,ENDTIME) VALUES('" + request.getDate() + "','" + request
-                        .getDuration() + "','" + request.getStartTime() + "','" + request.getEndTime() + "')");
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost/webtechdb","root","buda123");
+                Statement statement = connection.createStatement())
+        {
+            statement.execute(
+                    "INSERT INTO webtechdb.presentationday (Duration,StartTime,EndTime) VALUE(" + request.getDuration() + ",'"
+                            + format.format(request.getStartTime()) + "','" + format.format(request.getEndTime()) + "')");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
