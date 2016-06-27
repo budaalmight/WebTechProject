@@ -1,17 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
     <script src="controllers/jquery-3.0.0.min.js"></script>
     <script src="controllers/login.js"></script>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="login.css" type="text/css">
+
+
 </head>
+
 <body>
-<div class="login-wrapper">
-        <label for="login-fn">Username:</label><input type="text" id="login-fn">
-        <label for="login-password">Password:</label><input id="login-password" type="password">
-        <button type="button" id="login-button">Login</button>
-    <p id="wrong-login">Wrong Username(fn) of password.</p>
+
+<body>
+<div class="login">
+    <div class="login-screen">
+        <div class="app-title">
+            <h1>Login</h1>
+        </div>
+
+        <div class="login-form">
+            <div class="control-group">
+                <input type="text" class="login-field" value="" placeholder="username" id="login-name">
+                <label class="login-field-icon fui-user" for="login-name"></label>
+            </div>
+
+            <div class="control-group">
+                <input type="password" class="login-field" value="" placeholder="password" id="login-pass">
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+            </div>
+
+            <a id="login-button" class="btn btn-primary btn-large btn-block">Login</a>
+        </div>
+        <br/>
+        <a id="wrong-login" style="padding-left: 22%">Wrong Credentials</a>
+    </div>
 </div>
+</body>
+
+
 </body>
 </html>
