@@ -33,7 +33,7 @@ $(document).ready(function () {
         var p = password.val();
         $.postJSON("/rest/users/login",{username: u, password: p} , function (data, status) {
             localStorage.setItem('sid',data.sid);
-            window.location.href ="/index.html";
+            window.location.href ="/Calendar.html";
         }).fail(function () {
             console.log(arguments);
             $('#wrong-login').show();
