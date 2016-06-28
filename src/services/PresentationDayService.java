@@ -33,16 +33,18 @@ public class PresentationDayService
 
     @GET
     @Path("/getAll")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAll(String sid)
+    public String getAll(String sid)
     {
+        Gson gson = new GsonBuilder().create();
         if (SessionProvider.checkSid(sid))
         {
             PresentationDayDAO dayDAO = new PresentationDayDAO();
-            return Response.ok(dayDAO.getAll()).build();
+
+            return gson.toJson(dayDAO.getAll());
         }
         else
-            return Response.serverError().build();
+            return gson.toJson("Not an active sid");
     }
 }

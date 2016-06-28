@@ -31,7 +31,7 @@ public class PresentationDAO
         {
 
             ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM webtechdb.presentation WHERE PresentationDay=" + request.getPresentationDay() + "");
+                    .executeQuery("SELECT * FROM webtechdb.presentation WHERE webtechdb.presentation.PresentationDay=" + request.getPresentationDay() + "");
             List<Presentation> result = new ArrayList<>();
             while (resultSet.next()){
                 result.add(new Presentation(resultSet.getString("FN"),resultSet.getString("PresentationDay"),resultSet.getDate("StartTime")));
