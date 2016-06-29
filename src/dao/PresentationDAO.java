@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -54,9 +55,14 @@ public class PresentationDAO {
         try (Connection connection = DriverManager
                 .getConnection("jdbc:mysql://localhost/webtechdb", "root", "buda123");
              Statement statement = connection.createStatement()) {
-            statement.executeUpdate(
-                    "INSERT INTO webtechdb.presentation (FN, StartTime, PresentationDay)  VALUES (" + request.getFn() + ",'" + format.format(request
-                            .getStartTime()) + "'," + request.getPresentationDay() + ")");
+            SimpleDateFormat formater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
+            try {
+                statement.executeUpdate(
+                        "INSERT INTO webtechdb.presentation (FN, StartTime, PresentationDay)  VALUES (" + request.getFn() + ",'" + format.format(formater.parse(request
+                                .getStartTime())) + "'," + request.getPresentationDay() + ")");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

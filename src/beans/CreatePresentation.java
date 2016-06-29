@@ -1,15 +1,13 @@
 package beans;
 
-import java.util.Date;
-
 public class CreatePresentation
 {
     private final String sid;
     private final String fn;
-    private final Date startTime;
+    private final String startTime;
     private final String presentationDay;
 
-    public CreatePresentation(String sid, String fn, Date startTime, String presentationDay)
+    public CreatePresentation(String sid, String fn, String startTime, String presentationDay)
     {
         this.sid = sid;
         this.fn = fn;
@@ -27,7 +25,7 @@ public class CreatePresentation
         return fn;
     }
 
-    public Date getStartTime()
+    public String getStartTime()
     {
         return startTime;
     }
