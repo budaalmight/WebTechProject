@@ -16,11 +16,11 @@ import java.util.List;
 @Path("/Presentation")
 public class PresentationService
 {
-    @GET
+    @POST
     @Path("/getAll")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll(String json)
+    public String getAll(String json)
     {
         Gson gson = new GsonBuilder().create();
         GetPresentations getPresentations = gson.fromJson(json, GetPresentations.class);
@@ -28,10 +28,10 @@ public class PresentationService
         {
             PresentationDAO dao = new PresentationDAO();
             List<Presentation> presentations = dao.getAll(getPresentations);
-            return Response.ok(gson.toJson(presentations)).build();
+            return gson.toJson(presentations);
         }
         else
-            return Response.serverError().build();
+            return "Invalid sid.";
     }
 
     @POST

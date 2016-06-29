@@ -1,19 +1,22 @@
 package beans;
 
 
+import java.util.Date;
+
 public class PresentationDay
 {
     private final String id;
     private final Integer duration;
-    private final String startTime;
-    private final String endTime;
+    private final Long startTime;
+    private final Long endTime;
 
-    public PresentationDay(String id, Integer duration, String startTime, String  endTime)
+    public PresentationDay(String id, Integer duration, Date startTime, Date endTime)
     {
         this.id=id;
         this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = startTime.getTime();
+        this.endTime = endTime.getTime();
+
     }
     public String getId() {
         return id;
@@ -24,12 +27,12 @@ public class PresentationDay
         return duration;
     }
 
-    public String getStartTime()
+    public Long getStartTime()
     {
         return startTime;
     }
 
-    public String getEndTime()
+    public Long getEndTime()
     {
         return endTime;
     }

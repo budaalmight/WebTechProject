@@ -9,6 +9,8 @@ import dao.SessionProvider;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 @Path("/PresentationDay")
 public class PresentationDayService
@@ -31,14 +33,15 @@ public class PresentationDayService
             return Response.serverError().build();
     }
 
-    @GET
+    @POST
     @Path("/getAll")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String getAll(String sid)
     {
         Gson gson = new GsonBuilder().create();
-        if (SessionProvider.checkSid(sid))
+        Map<String,String> params = gson.fromJson(sid, HashMap.class);
+        if (SessionProvider.checkSid(params.get("sid")))
         {
             PresentationDayDAO dayDAO = new PresentationDayDAO();
 

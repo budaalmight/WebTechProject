@@ -4,12 +4,13 @@ import beans.CreatePresentationDay;
 import beans.PresentationDay;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PresentationDayDAO {
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public List<PresentationDay> getAll() {
         try {
@@ -23,8 +24,14 @@ public class PresentationDayDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM webtechdb.presentationday");
             List<PresentationDay> presentationDays = new ArrayList<>();
             while (resultSet.next()) {
-                presentationDays.add(new PresentationDay(resultSet.getString("ID"), resultSet.getInt("Duration"), resultSet.getString("StartTime"),
-                        resultSet.getString("EndTime")));
+
+                try {
+                    presentationDays.add(new PresentationDay(resultSet.getString("ID"), resultSet.getInt("Duration"), format.parse(resultSet.getString("StartTime")),
+                            format.parse(resultSet.getString("EndTime"))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
             resultSet.close();
             return presentationDays;
