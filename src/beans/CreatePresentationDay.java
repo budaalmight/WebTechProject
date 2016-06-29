@@ -1,16 +1,32 @@
 package beans;
 
-import java.util.Date;
-
-public class CreatePresentationDay extends PresentationDay
+public class CreatePresentationDay
 {
     private final String sid;
 
-    public CreatePresentationDay(String sid, Integer duration, Date startTime, Date endTime)
-    {
-        super(duration,startTime,endTime);
+    public CreatePresentationDay(String sid, Integer duration, String startTime, String endTime) {
         this.sid = sid;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    private final Integer duration;
+    private final String startTime;
+    private final String endTime;
+
 
     public String getSid()
     {

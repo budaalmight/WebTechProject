@@ -23,8 +23,8 @@ public class PresentationDayDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM webtechdb.presentationday");
             List<PresentationDay> presentationDays = new ArrayList<>();
             while (resultSet.next()) {
-                presentationDays.add(new PresentationDay(resultSet.getString("ID"), resultSet.getInt("Duration"), resultSet.getDate("StartTime"),
-                        resultSet.getDate("EndTime")));
+                presentationDays.add(new PresentationDay(resultSet.getString("ID"), resultSet.getInt("Duration"), resultSet.getString("StartTime"),
+                        resultSet.getString("EndTime")));
             }
             resultSet.close();
             return presentationDays;
