@@ -33,6 +33,7 @@ $(document).ready(function () {
         var p = password.val();
         $.postJSON("/rest/users/login",{username: u, password: p} , function (data, status) {
             localStorage.setItem('sid',data.sid);
+            localStorage.setItem("fn",u);
             window.location.href ="/calendar.html";
         }).fail(function () {
             console.log(arguments);

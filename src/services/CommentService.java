@@ -35,7 +35,7 @@ public class CommentService
         }
     }
 
-    @GET
+    @POST
     @Path("/getAll")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

@@ -1,0 +1,38 @@
+#login-button{
+    background-color: black;
+    cursor: pointer;
+}
+.commenter{
+    float: left;
+}
+.comment{
+    float: right;
+}
+.comments-wrapper {
+    border-top:2px black solid;;
+    width: 80%;
+    height: 250px;
+    background: aqua;
+    margin: auto;
+    padding: 10px;
+}
+.commenter {
+    width: 100px;
+    height: 30px;
+    padding-top: 5px;
+    background-color: white;
+    float: left;
+    border-radius: 10px;
+}
+.comment {
+    padding-top: 10px;
+    width: 85%;
+    height: 200px;
+    background: white;
+    border-radius: 15px;
+}
+.login-field{
+    width: 65%;
+    height: 100px;
+    margin-top: 20px;
+}
