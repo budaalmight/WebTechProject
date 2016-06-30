@@ -19,19 +19,19 @@ public class CommentService
     @POST
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response create(String json)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String create(String json)
     {
         Gson gson = new GsonBuilder().create();
         CreateComment comment = gson.fromJson(json, CreateComment.class);
         if(SessionProvider.checkSid(comment.getSid())){
             CommentDAO dao = new CommentDAO();
             dao.createComment(comment);
-            return Response.ok("Ok").build();
+            return gson.toJson("Done");
         }
         else
         {
-            return Response.serverError().build();
+            return gson.toJson("error");
         }
     }
 

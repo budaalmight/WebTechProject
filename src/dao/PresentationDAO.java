@@ -32,7 +32,7 @@ public class PresentationDAO {
             while (resultSet.next()) {
 
                 try {
-                    result.add(new Presentation(resultSet.getString("FN"), resultSet.getString("PresentationDay"), format.parse(resultSet.getString("StartTime"))));
+                    result.add(new Presentation(resultSet.getInt("ID"), resultSet.getString("FN"), resultSet.getString("PresentationDay"), format.parse(resultSet.getString("StartTime"))));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

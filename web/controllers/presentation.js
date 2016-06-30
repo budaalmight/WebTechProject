@@ -11,17 +11,16 @@ $(document).ready(function () {
         'data': JSON.stringify({sid:sid,presentation:presentation}),
         'dataType': 'json',
         'success': function (data, status) {
-            var commentsWrapper = document.getElementById("comments");
+            var commentsWrapper = $('#comments');
             data.forEach(function (currentComment, index) {
                 commentsWrapper.prepend("<div class=\"comments-wrapper\"><div class=\"commenter\">"+ currentComment.fn +"</div> <div class=\"comment\">"+ currentComment.comment +"</div> </div>");
             })
         }
     });
-    var comment = document.getElementById("login-name");
-    comment = comment.val();
     $('#login-button').click(function () {
         var fn = localStorage.getItem("fn");
-        fn = fn.val();
+        var comment = $('#login-name');
+        comment = comment.val();
         jQuery.ajax({
             headers: {
                 'Accept': 'application/json',
